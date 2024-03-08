@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/add.css">
+        <title>Quản lý sinh viên</title>
+    </head>
+    <body>
+        <header>
+            <h1>Quản lý Sinh viên</h1>
+        </header>
+        <div class="container">
+            <h2>Thêm sinh viên mới</h2>
+
+            <form id="student-form">
+                <label for="student-id">Mã sinh viên</label>
+                <input type="number" id="student-id" required /><br />
+                <label for="student-name">Họ tên sinh viên</label>
+                <input type="text" id="student-name" required /><br />
+                <label for="student-class">Lớp</label>
+                <input type="text" id="student-class" required /><br />
+                <label for="student-department">Khoa</label>
+                <input type="text" id="student-department" required /><br />
+                <button type="submit">Thêm sinh viên</button>
+            </form>
+
+            <div class="back">
+                <a href="index.html">Trở lại danh sách</a>
+            </div>
+        </div>
+
+        <script>
+        const studentForm = document.getElementById("student-form");
+        
+        studentForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const studentCode = document.getElementById("student-code").value;
+            const studentName = document.getElementById("student-name").value;
+            const studentClass = document.getElementById("student-class").value;
+            const studentDepartment = document.getElementById("student-department").value;
+
+            const newStudent = {
+                code: studentCode,
+                name: studentName,
+                class: studentClass,
+                department: studentDepartment
+            };
+
+            fetch("http://localhost:8888/student", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newStudent),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to add student");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                alert("Student added successfully");
+                // Có thể thực hiện chuyển hướng hoặc cập nhật giao diện ở đây
+                // Ví dụ: window.location.href = '/list_product.html';
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("Failed to add student");
+            });
+        });
+        </script>
+    </body>
+</html>

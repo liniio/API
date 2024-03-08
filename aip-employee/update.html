@@ -1,0 +1,106 @@
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<title>Sửa nhân viên</title>
+			<link
+				rel="stylesheet"
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+				integrity="sha384-
+	MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdk
+	nLPMO"
+				crossorigin="anonymous"
+			/>
+		</head>
+		<body>
+			<div class="container">
+				<h1>Quản lý sửa nhân viên</h1>
+				<hr />
+				<form>
+					<input
+						type="text"
+						placeholder="Nhập mã nhân viên"
+						class="form-control mb-4 col-4"
+						id="maSV"
+					/>
+					<input
+						type="text"
+						placeholder="Nhập họ tên"
+						class="form-control mb-4 col-4"
+						id="hoTen"
+					/>
+					<input
+						type="text"
+						placeholder="Nhập phòng ban"
+						class="form-control mb-4 col-4"
+						id="phongBan"
+					/>
+					<input
+						type="text"
+						placeholder="Nhập ngày công"
+						class="form-control mb-4 col-4"
+						id="ngayCong"
+					/>
+					<button class="btn btn-info col-2 btn-update">Cập nhật</button>
+				</form>
+				<hr />
+				<a href="./index.html">Trở về danh sách nhân viên</a>
+			</div>
+
+			<script>
+				const idUpdate = document.location.href.split("id=")[1];
+				const maSV = document.getElementById("maSV");
+				const hoTen = document.getElementById("hoTen");
+				const phongBan = document.getElementById("phongBan");
+				const ngayCong = document.getElementById("ngayCong");
+
+				// Lấy nhân viên muốn sửa đổ vào input
+				fetch(`http://localhost:8080/nhanvien/${idUpdate}`)
+					.then((response) => response.json())
+					.then((data) => {
+						maSV.value = data.maSV;
+						hoTen.value = data.hoTen;
+						phongBan.value = data.phongBan;
+						ngayCong.value = data.ngayCong;
+					});
+
+				// Sửa nhân viên theo dữ liệu mới nhập
+				const fetchApi = `http://localhost:8080/nhanvien/update/${idUpdate}`;
+				const btnUpdate = document.querySelector(".btn-update");
+
+				console.log(idUpdate);
+				btnUpdate.addEventListener("click", (e) => {
+					const maSV = document.getElementById("maSV").value;
+					const hoTen = document.getElementById("hoTen").value;
+					const phongBan = document.getElementById("phongBan").value;
+					const ngayCong = document.getElementById("ngayCong").value;
+
+					const dataUpdate = {
+						id: idUpdate,
+						maSV,
+						hoTen,
+						phongBan,
+						ngayCong,
+					};
+
+					e.preventDefault();
+					const options = {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(dataUpdate),
+					};
+					fetch(fetchApi, options)
+						.then((response) => {
+							if (!response) {
+								alert("Something went wrong");
+							}
+						})
+						.then((data) => (window.location.href = "index.html"))
+						.catch((e) => alert("Something went wrong"));
+				});
+			</script>
+		</body>
+	</html>

@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #0078d4;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+/* Định dạng thanh tìm kiếm */
+.search {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Định dạng trường tìm kiếm */
+#search-input {
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Định dạng nút tìm kiếm */
+#search-button {
+    padding: 10px 20px;
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #005eaa;
+}
+
+/* Thêm sinh viên */
+.back {
+    margin: 20px 0;
+}
+
+.back a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #0078d4;
+}
+
+a:hover {
+    color: #005eaa;
+}
+
+#student-list {
+    width: 80%;
+    /* max-width: 800px; */
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #0078d4;
+    color: #fff;
+}

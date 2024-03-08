@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/styles.css" />
+        <title>Quản lý sinh viên</title>
+    </head>
+    <body>
+        <header>
+            <h1>Quản lý Sinh viên</h1>
+        </header>
+        <div id="student-list">
+            <h2>Danh sách Sinh viên</h2>
+            <div class="search" id="searchForm">
+                <input type="text" id="search-input" placeholder="Tìm kiếm theo mã sinh viên" />
+                <button type="submit" id="search-button">Tìm kiếm</button>
+            </div>
+            <div class="back">
+                <a href="add.html">Thêm sinh viên</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Sinh viên</th>
+                        <th>Họ và tên</th>
+                        <th>Lớp</th>
+                        <th>Khoa</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="student-table-body">
+                    <!-- Dữ liệu sinh viên sẽ được hiển thị ở đây -->
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            const searchInput = document.getElementById("#search-input");
+            const ulElement = document.querySelector("#student-list");
+
+            // Tìm kiếm sinh viên theo mã
+            searchForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const studentCode = document.getElementById('student-code').value;
+
+                fetch(`http://localhost:8080/student/${studentCode}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Student not found');
+                        }
+                        return response.json();
+                    })
+                    .then(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                                    <td>${student.id}</td>
+                                    <td>${student.code}</td>
+                                    <td>${student.name}</td>
+                                    <td>${student.class}</td>
+                                    <td>${student.department}</td>
+                                    <td>
+                                        <button onclick="updateStudent(${student.id})">Sửa</button>
+                                        <button onclick="deleteStudent(${student.id})">Xóa</button>
+                                    </td>
+                                `;
+                    })
+                    .catch(error => {
+                        productDetails.innerHTML = `<p>${error.message}</p>`;
+                    });
+            });
+
+            // Sử dụng JavaScript để gọi API và hiển thị dữ liệu
+            fetch("http://localhost:8888/student")
+                .then((response) => response.json())
+                .then((data) => {
+                    data.forEach((student) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                                    <td>${student.id}</td>
+                                    <td>${student.code}</td>
+                                    <td>${student.name}</td>
+                                    <td>${student.class}</td>
+                                    <td>${student.department}</td>
+                                    <td>
+                                        <button onclick="updateStudent(${student.id})">Sửa</button>
+                                        <button onclick="deleteStudent(${student.id})">Xóa</button>
+                                    </td>
+                                `;
+                        ulElement.appendChild(listItem);
+                    });
+                })
+                .catch((error) => console.error("Error when retrieving student data:", error));
+        </script>
+    </body>
+</html>

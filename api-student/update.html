@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý sinh viên</title>
+    </head>
+    <body>
+        <h1>Cập nhật sinh viên</h1>
+        <form id="student-form">
+            <label for="student-id">Mã sinh viên</label>
+            <input type="number" id="student-id" required /><br />
+            <label for="student-name">Họ tên sinh viên</label>
+            <input type="text" id="student-name" required /><br />
+            <label for="student-class">Lớp mới</label>
+            <input type="text" id="student-class" required /><br />
+            <label for="student-department">Khoa mới</label>
+            <input type="text" id="student-department" required /><br />
+            <button type="submit">Cập nhật sinh viên</button>
+        </form>
+
+        <script>
+            const studentForm = document.getElementById('student-form');
+            studentForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const studentName = document.getElementById("student-name").value;
+                const studentClass = document.getElementById("student-class").value;
+                const studentDepartment = document.getElementById("student-department").value;
+
+                const updateStudent = {
+                    name: studentName,
+                    class: studentClass,
+                    department: studentDepartment
+                };
+
+                fetch('http://localhost:8888/student/${studentId}', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateStudent)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update student');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Student update successfully');
+                    // Có thể thực hiện chuyển hướng hoặc cập nhật giao diện ở đây
+                    window.location.href = "index.html";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update student');
+                });
+            });
+        </script>
+    </body>
+</html>

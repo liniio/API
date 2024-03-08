@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Thêm nhân viên</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+			integrity="sha384-
+MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdk
+nLPMO"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Quản lý thêm nhân viên</h1>
+			<hr />
+			<form>
+				<input
+					type="text"
+					placeholder="Nhập mã nhân viên"
+					class="form-control mb-4 col-4"
+					id="maSV"
+				/>
+				<input
+					type="text"
+					placeholder="Nhập họ tên"
+					class="form-control mb-4 col-4"
+					id="hoTen"
+				/>
+				<input
+					type="text"
+					placeholder="Nhập phòng ban"
+					class="form-control mb-4 col-4"
+					id="phongBan"
+				/>
+				<input
+					type="text"
+					placeholder="Nhập ngày công"
+					class="form-control mb-4 col-4"
+					id="ngayCong"
+				/>
+				<button class="btn btn-info col-2 btn-create">Lưu lại</button>
+			</form>
+			<hr />
+			<a href="./index.html">Trở về danh sách nhân viên</a>
+		</div>
+
+		<script>
+			const fetchApi = "http://localhost:8080/nhanvien/create";
+			const btnCreate = document.querySelector(".btn-create");
+
+			function getData() {
+				const maSV = document.getElementById("maSV").value;
+				const hoTen = document.getElementById("hoTen").value;
+				const phongBan = document.getElementById("phongBan").value;
+				const ngayCong = document.getElementById("ngayCong").value;
+
+				return {
+					maSV,
+					hoTen,
+					phongBan,
+					ngayCong,
+				};
+			}
+
+			btnCreate.addEventListener("click", (e) => {
+				e.preventDefault();
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(getData()),
+				};
+				fetch(fetchApi, options)
+					.then((response) => {
+						if (!response) {
+							alert("Something went wrong");
+						}
+					})
+					.then((data) => (window.location.href = "index.html"))
+					.catch((e) => alert("Something went wrong"));
+			});
+		</script>
+	</body>
+</html>

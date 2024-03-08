@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>index</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Product List</h1>
+            <ul id="product-list">
+                <!-- Danh sách sản phẩm sẽ được thêm vào đây bằng JavaScript -->
+            </ul>
+        </div>
+
+        <script>
+            const ulElement = document.querySelector('#product-list');
+            // Sử dụng JavaScript để gọi API và hiển thị dữ liệu
+            fetch('http://localhost:8080/products')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(product => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <strong>ID:</strong> ${product.id}<br>
+                        <strong>Name:</strong> ${product.name}<br>
+                        <strong>Price:</strong> ${product.price}<br>
+                    `;
+                    ulElement.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+            // fetch('http://localhost:8080/product')
+            // .then(response => response.json())
+            // .then(products => {
+            //     const html = products.map(product => 
+            //         `
+            //         <li>
+            //             <h2>${product.name}</h2>
+            //             <span>${product.price}</span>
+            //         </li>
+            //         `
+            //     )
+            //     ulElement.innerHTML = html.join('')
+            // })
+            // .catch(() => console.log(error))
+
+        </script>
+    </body>
+</html>

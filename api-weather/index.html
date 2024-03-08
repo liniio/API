@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather App</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <div class="weather-container">
+            <h1>Weather in Vietnam</h1>
+            <select id="city-select">
+                <option value="Hanoi">Hanoi</option>
+                <option value="Ho Chi Minh City">Ho Chi Minh City</option>
+                <option value="Bac Ninh">Bac Ninh</option>
+                <option value="Binh Duong">Binh Duong</option>
+                <option value="Ninh Binh">Ninh Binh</option>
+                <option value="Hai Phong">Hai Phong</option>
+                <!-- Thêm các tỉnh thành phố khác ở đây -->
+            </select>
+            <div id="weather-info">
+                <h2>City: <span id="city-name"></span></h2>
+                <p>Temperature: <span id="temperature"></span>°C</p>
+                <p>Description: <span id="description"></span></p>
+                <p>Humidity: <span id="humidity"></span>%</p>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

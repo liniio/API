@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Danh sách nhân viên</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+			integrity="sha384-
+MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdk
+nLPMO"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<div class="container my-2">
+			<!-- <div class="input-group mb-3">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Tìm sinh viên"
+					id="hoTenSearch"
+				/>
+
+				<div class="input-group-append">
+					<button
+						class="btn btn-outline-secondary"
+						type="button"
+						id="btn-search"
+					>
+						Search
+					</button>
+				</div>
+			</div> -->
+			<h1>Danh sách nhân viên</h1>
+			<a href="./create.html" class="btn btn-primary btn-sm mb-3">
+				Thêm nhân viên
+			</a>
+			<table border="1" class="table table-striped table-responsive-md">
+				<thead>
+					<tr>
+						<th>Mã nhân viên</th>
+						<th>Tên nhân viên</th>
+						<th>Tên phòng ban</th>
+						<th>Ngày công</th>
+						<th>Lựa chọn</th>
+					</tr>
+				</thead>
+				<tbody class="container-data"></tbody>
+			</table>
+		</div>
+
+		<script>
+			const containerData = document.querySelector(".container-data");
+			const btnSearch = document.getElementById("btnSearch");
+			const fetchApi = "http://localhost:8080/nhanvien/all";
+
+			// Xóa sinh viên
+			const handleDeleteStudent = (id) => {
+				fetch(`http://localhost:8080/nhanvien/delete/${id}`, {
+					method: "DELETE",
+				})
+					.then((response) => {
+						if (!response) {
+							alert("Something went wrong");
+						}
+					})
+					.then((data) => (window.location.href = "index.html"))
+					.catch((e) => alert("Something went wrong"));
+			};
+
+			// Hiển thị danh sách sinh viên
+			fetch(fetchApi)
+				.then((response) => response.json())
+				.then((students) => {
+					console.log(students);
+					const html = students.map((student) => {
+						console.log(student);
+						return `
+                        <tr>
+                            <td>${student.maSV}</td>
+                            <td>${student.hoTen}</td>
+    						<td>${student.phongBan}</td>
+    						<td>${student.ngayCong}</td>
+    						<td>
+    							<a href="./update.html?id=${student.id}" class="btn btn-primary">Sửa</a>
+    							<a class="btn btn-danger btn-delete-student" onclick="handleDeleteStudent(${
+									student.id
+								})">Xóa</a>
+    						</td>
+                        </tr>
+                        `;
+					});
+
+					containerData.innerHTML = html.join("");
+				})
+
+				.catch(() => {
+					alert("Something went wrong");
+				});
+
+			// btnSearch.addEventListener("click", () => {
+			// 	const fetchApiSearch = `http://localhost:8080/sinhvien/search/${hoTenSearch}`;
+			// 	fetch(fetchApiSearch)
+			// 		.then((response) => response.json())
+			// 		.then((students) => {
+			// 			const html = students.map((student) => {
+			// 				console.log(student);
+			// 				return `
+			//             <tr>
+			//                 <td>${student.maSV}</td>
+			//                 <td>${student.hoTen}</td>
+			// 				<td>${student.khoa}</td>
+			// 				<td>${student.lop}</td>
+			// 				<td>${student.diem}</td>
+			// 				<td>${student.diem > 5 ? "Đỗ" : "Trượt"}</td>
+			// 				<td>
+			// 					<a href="./update.html?id=${student.id}" class="btn btn-primary">Sửa</a>
+			// 					<a class="btn btn-danger btn-delete-student" onclick="handleDeleteStudent(${
+			// 						student.id
+			// 					})">Xóa</a>
+			// 				</td>
+			//             </tr>
+			//             `;
+			// 			});
+
+			// 			containerData.innerHTML = html.join("");
+			// 		})
+
+			// 		.catch(() => {
+			// 			alert("Something went wrong");
+			// 		});
+			// });
+		</script>
+	</body>
+</html>
